@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZadraCode | Soluciones de Código y IA en 48 Horas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .animate-fadeInUp {
+      animation: fadeInUp 1s ease-in-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-950">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { createRoot } = ReactDOM;
+
+    // Este componente representa un servicio individual en la sección de servicios.
+    const ServiceCard = ({ icon, title, description }) => {
+      return (
+        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300 transform hover:-translate-y-2">
+          <div className="text-teal-400 text-4xl mb-4 flex justify-center items-center">
+            <i className={icon}></i>
+          </div>
+          <h3 className="text-xl font-bold text-white mb-2 text-center">{title}</h3>
+          <p className="text-gray-400 text-center">{description}</p>
+        </div>
+      );
+    };
+
+    // Componente para el contador de urgencia
+    const CountdownTimer = ({ targetDate }) => {
+      const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
+
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setTimeLeft(targetDate - new Date().getTime());
+        }, 1000);
+        return () => clearInterval(timer);
+      }, [targetDate]);
+
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      return (
+        <div className="text-center text-red-500 font-bold text-2xl mb-4 animate-pulse">
+          ¡OFERTA TERMINA EN: {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}!
+        </div>
+      );
+    };
+
+    // Componente para el Asesor Financiero con IA
+    const FinancialAdvisor = () => {
+      const [prompt, setPrompt] = useState('');
+      const [response, setResponse] = useState('');
+      const [loading, setLoading] = useState(false);
+
+      const handleConsult = async () => {
+        setLoading(true);
+        setResponse('');
+        // En un entorno real, aquí se haría una llamada a una API real de IA.
+        // Esta es una simulación para la demostración.
+        setTimeout(() => {
+          setResponse(`
+          **Análisis Rápido de tu Solicitud:**
+
+          1.  **Evaluación:** Basado en tu situación de ingresos y gastos, la prioridad es generar liquidez inmediata.
+          2.  **Recomendación:** Considera diversificar tus fuentes de ingresos con proyectos de alto rendimiento a corto plazo. La venta de servicios de desarrollo de software es una excelente opción.
+          3.  **Advertencia:** No inviertas en activos de alto riesgo hasta que tu situación financiera sea estable.
+
+          **Descargo de Responsabilidad:** Esta es una simulación. Las recomendaciones reales de IA son mucho más detalladas.
+          `);
+          setLoading(false);
+        }, 2000);
+      };
+
+      return (
+        <div className="bg-gray-800 p-8 rounded-2xl shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300 transform hover:-translate-y-2">
+          <h3 className="text-xl font-bold text-white mb-4 text-center">Asesor Financiero con IA</h3>
+          <p className="text-gray-400 mb-4 text-center">Obtén recomendaciones financieras rápidas y personalizadas.</p>
+          <div className="space-y-4">
+            <textarea
+              className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 text-white"
+              rows="4"
+              placeholder="Escribe tu situación financiera aquí..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+            />
+            <button
+              onClick={handleConsult}
+              disabled={loading}
+              className="w-full bg-teal-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-teal-600 transition-all duration-300"
+            >
+              {loading ? 'Analizando...' : 'OBTENER CONSEJO'}
+            </button>
+          </div>
+          {response && (
+            <div className="mt-6 p-4 bg-gray-700 rounded-lg whitespace-pre-wrap">
+              <p className="font-bold text-white mb-2">Respuesta de la IA:</p>
+              <p className="text-gray-300" dangerouslySetInnerHTML={{ __html: response }}></p>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Este es el componente principal de la aplicación.
+    const App = () => {
+      // Se actualiza el estado para incluir el apellido
+      const [formData, setFormData] = useState({ name: '', lastName: '', email: '', message: '' });
+      const [submissionStatus, setSubmissionStatus] = useState(null);
+      const [validationError, setValidationError] = useState('');
+      const targetDate = new Date().getTime() + 48 * 60 * 60 * 1000;
+
+      const services = [
+        {
+          icon: 'fa-solid fa-robot',
+          title: 'Scripts de IA y Automatización',
+          description: 'Automatizamos tareas repetitivas y creamos scripts inteligentes para optimizar tus flujos de trabajo.',
+        },
+        {
+          icon: 'fa-solid fa-code',
+          title: 'Desarrollo de APIs',
+          description: 'Construimos APIs robustas y seguras para conectar tus aplicaciones y servicios.',
+        },
+        {
+          icon: 'fa-solid fa-search-dollar',
+          title: 'Optimización de Código',
+          description: 'Auditamos y refactorizamos tu código para mejorar su rendimiento, seguridad y escalabilidad.',
+        },
+        {
+          icon: 'fa-solid fa-comments',
+          title: 'Chatbots Personalizados',
+          description: 'Implementamos chatbots a medida para soporte al cliente, ventas o entretenimiento.',
+        },
+        {
+          icon: 'fa-solid fa-database',
+          title: 'Gestión de Bases de Datos',
+          description: 'Diseñamos y administramos bases de datos eficientes para tus aplicaciones.',
+        },
+        {
+          icon: 'fa-solid fa-rocket',
+          title: 'Consultoría Full Stack',
+          description: 'Brindamos asesoramiento experto en desarrollo de pila completa.',
+        },
+      ];
+
+      const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setValidationError(''); // Limpiar errores previos
+
+        // Validación básica
+        if (!formData.name || !formData.lastName || !formData.email || !formData.message) {
+          setValidationError('Por favor, completa todos los campos.');
+          return;
+        }
+
+        setSubmissionStatus('loading');
+        setTimeout(() => {
+          console.log('Formulario enviado:', formData);
+          setSubmissionStatus('success');
+          setFormData({ name: '', lastName: '', email: '', message: '' });
+        }, 1500);
+      };
+
+      return (
+        <div className="bg-gray-950 text-gray-300 font-sans leading-relaxed">
+          {/* Header y Navegación */}
+          <header className="py-4 px-6 md:px-12 flex justify-between items-center bg-gray-900 border-b-2 border-teal-400">
+            <div className="flex items-center space-x-2">
+              <i className="fa-solid fa-microchip text-3xl text-teal-400"></i>
+              <h1 className="text-3xl font-extrabold text-white">ZadraCode</h1>
+            </div>
+            <div className="text-sm md:text-base hidden sm:flex items-center space-x-6">
+              <a href="#services" className="hover:text-teal-400 transition-colors">Servicios</a>
+              <a href="#contact" className="hover:text-teal-400 transition-colors">Contacto</a>
+            </div>
+          </header>
+
+          {/* Sección Hero con mensaje de urgencia y contador */}
+          <section className="min-h-screen flex items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "linear-gradient(to bottom, rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url(https://placehold.co/1920x1080/0f172a/94a3b8?text=SOLUCIONES+DE+CODIGO)" }}>
+            <div className="max-w-4xl mx-auto p-6 md:p-12 animate-fadeInUp">
+              <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
+                <span className="text-teal-400">¿Problemas de código?</span> Soluciones de <span className="underline decoration-wavy decoration-red-500">alto impacto</span> en <span className="text-red-500">48 horas</span>.
+              </h2>
+              <p className="text-lg md:text-2xl text-gray-300 font-light mb-4">
+                Soy un Desarrollador Full Stack con el expertise para resolver tus desafíos más urgentes. **Sin excusas. Solo resultados.**
+              </p>
+              <CountdownTimer targetDate={targetDate} />
+              <div className="inline-flex items-center bg-green-600 text-white font-bold py-2 px-4 rounded-full mb-8 shadow-lg">
+                <i className="fa-solid fa-shield-halved mr-2"></i>
+                Satisfacción Garantizada
+              </div>
+              <a href="#contact" className="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 transform hover:scale-105">
+                ¡CONTACTA AHORA!
+              </a>
+            </div>
+          </section>
+
+          {/* Sección de Servicios */}
+          <section id="services" className="py-20 px-6 md:px-12 bg-gray-900">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Nuestros Servicios Estratégicos</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service, index) => (
+                <ServiceCard key={index} {...service} />
+              ))}
+            </div>
+          </section>
+
+          {/* Sección de Nuevo Producto de Alto Valor */}
+          <section className="py-20 px-6 md:px-12 bg-gray-950">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Nuevo: Asesoría Financiera con IA</h2>
+            <div className="max-w-4xl mx-auto">
+              <FinancialAdvisor />
+            </div>
+          </section>
+
+          {/* Sección de Testimonios (Psicología de la Prueba Social) */}
+          <section className="py-20 px-6 md:px-12 bg-gray-900">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Testimonios. Clientes Satisfechos.</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+                <p className="italic text-gray-300 mb-4">"ZadraCode resolvió nuestro problema de scraping en menos de un día. Su velocidad es impresionante."</p>
+                <p className="font-bold text-white">- Ana P., Gerente de Marketing</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+                <p className="italic text-gray-300 mb-4">"El chatbot que crearon para nuestro sitio web ha mejorado enormemente la satisfacción del cliente. ¡Increíble trabajo!"</p>
+                <p className="font-bold text-white">- Carlos G., CEO de TechSolutions</p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+                <p className="italic text-gray-300 mb-4">"La optimización de nuestra API fue vital. El rendimiento se disparó. Una inversión que valió la pena."</p>
+                <p className="font-bold text-white">- Laura M., CTO de InnoCorp</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Sección de Contacto */}
+          <section id="contact" className="py-20 px-6 md:px-12 bg-gray-950">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Listo para Actuar. ¿Qué necesitas?</h2>
+            <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-2xl border-2 border-teal-400">
+              <p className="text-center text-lg text-gray-300 mb-6">
+                **Desarrollador Full Stack: Sadrac Aponte.**
+              </p>
+              <div className="flex justify-center items-center space-x-6 mb-6">
+                <a href="mailto:zadracvillanii@gmail.com" className="text-gray-300 hover:text-teal-400 transition-colors">
+                  <i className="fa-solid fa-envelope text-2xl mr-2"></i> zadracvillanii@gmail.com
+                </a>
+                <a href="tel:+56945885374" className="text-gray-300 hover:text-teal-400 transition-colors">
+                  <i className="fa-solid fa-phone text-2xl mr-2"></i> +56 9 45885374
+                </a>
+              </div>
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-1">Tu Nombre</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
+                  />
+                </div>
+                {/* Nuevo campo de apellido */}
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-400 mb-1">Tu Apellido</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">Tu Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-1">Tu Mensaje</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows="4"
+                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
+                  ></textarea>
+                </div>
+                {validationError && (
+                  <p className="text-center text-red-500">{validationError}</p>
+                )}
+                {submissionStatus === 'loading' && (
+                  <p className="text-center text-teal-400 animate-pulse">Enviando...</p>
+                )}
+                {submissionStatus === 'success' && (
+                  <p className="text-center text-green-500">¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.</p>
+                )}
+                <button
+                  type="submit"
+                  className="w-full bg-teal-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-teal-600 transition-all duration-300"
+                  disabled={submissionStatus === 'loading'}
+                >
+                  ENVIAR MENSAJE
+                </button>
+              </form>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="py-6 text-center text-gray-500 text-sm bg-gray-950">
+            &copy; 2024 Sadrac Aponte. Todos los derechos reservados.
+          </footer>
+        </div>
+      );
+    };
+
+    // Se renderiza la aplicación React en el DOM
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
+  </script>
+</body>
+</html>
