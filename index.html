@@ -1,359 +1,1214 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZadraCode | Soluciones de Código y IA en 48 Horas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .animate-fadeInUp {
-      animation: fadeInUp 1s ease-in-out;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sadrac Aponte — Backend Architect & Full Stack Developer. Scalable systems, microservices, .NET Core, Node.js.">
+<title>Sadrac Aponte · developerSAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@400;500&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #07090f;
+  --s1: #0c0f18;
+  --s2: #111520;
+  --border: #1a2035;
+  --border2: #242d45;
+  --text: #e2e8f8;
+  --muted: #6b7a99;
+  --accent: #4f8ef7;
+  --cyan: #00d4e8;
+  --gold: #f0b429;
+  --green: #10d98a;
+  --mono: 'DM Mono', monospace;
+  --serif: 'Fraunces', serif;
+  --sans: 'Mulish', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+/* GRID BG */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(79,142,247,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(7,9,15,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--muted); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent);
+  color: white !important;
+  padding: 8px 20px !important;
+  font-size: 11px !important;
+  letter-spacing: 1px !important;
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: #3a7ae0 !important; color: white !important; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 48px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-inner {
+  width: 100%;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(16,217,138,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(16,217,138,0); }
+}
+
+.hero-status {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--green);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hero-lang {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  padding: 3px 10px;
+  letter-spacing: 1px;
+}
+
+h1.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+h1.hero-name em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.hero-title {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: #8892b0;
+  line-height: 1.8;
+  max-width: 560px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s ease 0.3s both;
+  font-weight: 300;
+}
+
+.hero-desc strong { color: var(--text); font-weight: 600; }
+
+.hero-metrics {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+
+.hm {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hm-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.hm-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s ease 0.5s both;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  padding: 14px 32px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  background: #3a7ae0;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  padding: 14px 32px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTIONS ── */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.sec-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 3px;
+}
+
+.sec-title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.sec-title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── STACK ── */
+#stack { border-top: 1px solid var(--border); }
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2px;
+}
+
+.stack-item {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 24px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.stack-item:hover {
+  background: var(--s2);
+  border-color: var(--border2);
+}
+
+.si-category {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.si-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.si-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text);
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  padding: 4px 10px;
+  letter-spacing: 0.5px;
+  transition: border-color 0.2s;
+}
+
+.si-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── SERVICES ── */
+#services { border-top: 1px solid var(--border); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.svc-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.svc-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.svc-card:hover::before { opacity: 1; }
+
+.svc-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.svc-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.svc-desc {
+  font-size: 13px;
+  color: #6b7a99;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.svc-rate {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.svc-time {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+}
+
+/* ── PROJECTS ── */
+#projects { border-top: 1px solid var(--border); }
+
+.projects-grid { display: grid; gap: 16px; }
+
+.proj-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.proj-card:hover { border-color: var(--cyan); }
+
+.proj-left {
+  background: var(--s2);
+  border-right: 1px solid var(--border);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.proj-name {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.proj-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.proj-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 24px;
+}
+
+.ps-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-item::before { content: '▸'; color: var(--border2); font-size: 9px; }
+
+.proj-right { padding: 36px 32px; }
+
+.proj-problem {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.proj-desc {
+  font-size: 14px;
+  color: #8892b0;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.proj-metrics {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.pm { display: flex; flex-direction: column; gap: 3px; }
+
+.pm-val {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.pm-val.blue { color: var(--accent); }
+.pm-val.cyan { color: var(--cyan); }
+.pm-val.green { color: var(--green); }
+.pm-val.gold { color: var(--gold); }
+
+.pm-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.proj-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(79,142,247,0.3);
+  padding: 8px 16px;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.proj-link:hover {
+  background: rgba(79,142,247,0.1);
+  border-color: var(--accent);
+}
+
+/* ── PROCESS ── */
+#process { border-top: 1px solid var(--border); }
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.proc-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.proc-card:hover { background: var(--s2); }
+
+.proc-num {
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 900;
+  color: rgba(79,142,247,0.08);
+  line-height: 1;
+  position: absolute;
+  top: 12px; right: 16px;
+  letter-spacing: -3px;
+}
+
+.proc-phase {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.proc-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.proc-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.proc-items li {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding-left: 12px;
+  position: relative;
+}
+
+.proc-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--border2);
+  font-size: 10px;
+}
+
+/* ── CONTACT ── */
+#contact {
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.contact-inner { max-width: 640px; margin: 0 auto; }
+
+.contact-big {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.contact-big em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.contact-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.contact-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 12px 24px;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.contact-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(79,142,247,0.05);
+}
+
+.contact-availability {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.avail-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+/* ── LANG TOGGLE ── */
+.lang-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 5px 12px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover, .lang-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  #hero, section { padding-left: 24px; padding-right: 24px; }
+  .hero-metrics { gap: 24px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .proj-card { grid-template-columns: 1fr; }
+  .proj-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { padding: 24px; }
+}
+</style>
 </head>
-<body class="bg-gray-950">
-  <div id="root"></div>
+<body>
+<div class="wrap">
 
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-    const { createRoot } = ReactDOM;
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">developer<span>SAC</span></a>
+  <ul class="nav-links">
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
 
-    // Este componente representa un servicio individual en la sección de servicios.
-    const ServiceCard = ({ icon, title, description }) => {
-      return (
-        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300 transform hover:-translate-y-2">
-          <div className="text-teal-400 text-4xl mb-4 flex justify-center items-center">
-            <i className={icon}></i>
-          </div>
-          <h3 className="text-xl font-bold text-white mb-2 text-center">{title}</h3>
-          <p className="text-gray-400 text-center">{description}</p>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="hero-dot"></div>
+      <span class="hero-status" id="status-text">Available for projects</span>
+      <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+    </div>
+
+    <h1 class="hero-name">Sadrac<br><em>Aponte</em></h1>
+    <div class="hero-title" id="hero-title">Backend Architect · Full Stack Developer</div>
+
+    <p class="hero-desc" id="hero-desc">
+      I build backend systems that <strong>don't break under pressure.</strong>
+      Specialized in microservice architectures, legacy migrations and enterprise-grade
+      performance optimization. Based in Santiago, Chile — working globally.
+    </p>
+
+    <div class="hero-metrics">
+      <div class="hm">
+        <span class="hm-num">88%</span>
+        <span class="hm-label" id="m1">Response time reduction</span>
+      </div>
+      <div class="hm">
+        <span class="hm-num">40%</span>
+        <span class="hm-label" id="m2">Fewer sync errors</span>
+      </div>
+      <div class="hm">
+        <span class="hm-num">500+</span>
+        <span class="hm-label" id="m3">Products managed</span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary" id="cta1">→ Work with me</a>
+      <a href="#projects" class="btn-secondary" id="cta2">View projects</a>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="sec-label">
+    <span class="sec-num">01 //</span>
+    <h2 class="sec-title">Tech <em>Stack</em></h2>
+  </div>
+
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="si-category">Backend</div>
+      <div class="si-items">
+        <span class="si-tag">.NET Core</span>
+        <span class="si-tag">Node.js</span>
+        <span class="si-tag">TypeScript</span>
+        <span class="si-tag">Express</span>
+        <span class="si-tag">C#</span>
+      </div>
+    </div>
+    <div class="stack-item">
+      <div class="si-category">Frontend</div>
+      <div class="si-items">
+        <span class="si-tag">React.js</span>
+        <span class="si-tag">Next.js 14</span>
+        <span class="si-tag">Three.js</span>
+        <span class="si-tag">React Three Fiber</span>
+        <span class="si-tag">Tailwind CSS</span>
+      </div>
+    </div>
+    <div class="stack-item">
+      <div class="si-category">Architecture</div>
+      <div class="si-items">
+        <span class="si-tag">Microservices</span>
+        <span class="si-tag">CQRS</span>
+        <span class="si-tag">Saga Pattern</span>
+        <span class="si-tag">Circuit Breaker</span>
+        <span class="si-tag">REST API</span>
+      </div>
+    </div>
+    <div class="stack-item">
+      <div class="si-category">Database</div>
+      <div class="si-items">
+        <span class="si-tag">PostgreSQL</span>
+        <span class="si-tag">SQL Server</span>
+        <span class="si-tag">Prisma ORM</span>
+        <span class="si-tag">Supabase</span>
+      </div>
+    </div>
+    <div class="stack-item">
+      <div class="si-category">DevOps</div>
+      <div class="si-items">
+        <span class="si-tag">Docker</span>
+        <span class="si-tag">CI/CD</span>
+        <span class="si-tag">Azure DevOps</span>
+        <span class="si-tag">Git</span>
+      </div>
+    </div>
+    <div class="stack-item">
+      <div class="si-category">Methodologies</div>
+      <div class="si-items">
+        <span class="si-tag">Scrum</span>
+        <span class="si-tag">TDD</span>
+        <span class="si-tag">Domain-Driven Design</span>
+        <span class="si-tag">SOLID</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-label">
+    <span class="sec-num">02 //</span>
+    <h2 class="sec-title" id="sec-services-title">What I <em>Build</em></h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="svc-card">
+      <span class="svc-icon">🏗️</span>
+      <div class="svc-name" id="s1-name">Microservice Architecture</div>
+      <div class="svc-desc" id="s1-desc">Design and implementation of distributed systems with fault tolerance, Saga patterns and CQRS. Built to handle production load from day one.</div>
+      <div class="svc-rate">$500–$3,000 <span class="svc-time">per project</span></div>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">⚡</span>
+      <div class="svc-name" id="s2-name">Performance Optimization</div>
+      <div class="svc-desc" id="s2-desc">Database query optimization, N+1 elimination, advanced indexing. Documented results: 88% reduction in response times on PostgreSQL systems.</div>
+      <div class="svc-rate">$300–$800 <span class="svc-time">per audit + fix</span></div>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🔄</span>
+      <div class="svc-name" id="s3-name">Legacy Migration</div>
+      <div class="svc-desc" id="s3-desc">End-to-end migration from legacy systems to .NET Core or Node.js with zero downtime strategy, full test coverage and documentation.</div>
+      <div class="svc-rate">$2,000–$8,000 <span class="svc-time">per project</span></div>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🎮</span>
+      <div class="svc-name" id="s4-name">3D Web Platforms</div>
+      <div class="svc-desc" id="s4-desc">High-performance interactive 3D applications with React Three Fiber and WebGL. 60 FPS stable with 45% memory optimization. Rare combination of 3D + robust backend.</div>
+      <div class="svc-rate">$1,500–$6,000 <span class="svc-time">per project</span></div>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">📊</span>
+      <div class="svc-name" id="s5-name">Full Stack SaaS MVP</div>
+      <div class="svc-desc" id="s5-desc">Complete MVP with auth, dashboard, API and database. Modern, scalable stack from day one. Next.js 14 + PostgreSQL + CI/CD included.</div>
+      <div class="svc-rate">$3,000–$12,000 <span class="svc-time">per project</span></div>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🤝</span>
+      <div class="svc-name" id="s6-name">Technical Retainer</div>
+      <div class="svc-desc" id="s6-desc">Monthly ongoing support, code reviews, architectural improvements and priority availability. For startups and tech SMEs that need a senior on demand.</div>
+      <div class="svc-rate">$500–$1,200 <span class="svc-time">/ month</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label">
+    <span class="sec-num">03 //</span>
+    <h2 class="sec-title" id="sec-proj-title">Selected <em>Projects</em></h2>
+  </div>
+
+  <div class="projects-grid">
+    <div class="proj-card">
+      <div class="proj-left">
+        <div>
+          <div class="proj-name">Aureon</div>
+          <div class="proj-type">Enterprise Management System</div>
         </div>
-      );
-    };
-
-    // Componente para el contador de urgencia
-    const CountdownTimer = ({ targetDate }) => {
-      const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
-
-      useEffect(() => {
-        const timer = setInterval(() => {
-          setTimeLeft(targetDate - new Date().getTime());
-        }, 1000);
-        return () => clearInterval(timer);
-      }, [targetDate]);
-
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      return (
-        <div className="text-center text-red-500 font-bold text-2xl mb-4 animate-pulse">
-          ¡OFERTA TERMINA EN: {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}!
+        <div class="proj-stack">
+          <span class="ps-item">Node.js + PostgreSQL</span>
+          <span class="ps-item">CQRS Pattern</span>
+          <span class="ps-item">Saga Architecture</span>
+          <span class="ps-item">TypeScript</span>
         </div>
-      );
-    };
-
-    // Componente para el Asesor Financiero con IA
-    const FinancialAdvisor = () => {
-      const [prompt, setPrompt] = useState('');
-      const [response, setResponse] = useState('');
-      const [loading, setLoading] = useState(false);
-
-      const handleConsult = async () => {
-        setLoading(true);
-        setResponse('');
-        // En un entorno real, aquí se haría una llamada a una API real de IA.
-        // Esta es una simulación para la demostración.
-        setTimeout(() => {
-          setResponse(`
-          **Análisis Rápido de tu Solicitud:**
-
-          1.  **Evaluación:** Basado en tu situación de ingresos y gastos, la prioridad es generar liquidez inmediata.
-          2.  **Recomendación:** Considera diversificar tus fuentes de ingresos con proyectos de alto rendimiento a corto plazo. La venta de servicios de desarrollo de software es una excelente opción.
-          3.  **Advertencia:** No inviertas en activos de alto riesgo hasta que tu situación financiera sea estable.
-
-          **Descargo de Responsabilidad:** Esta es una simulación. Las recomendaciones reales de IA son mucho más detalladas.
-          `);
-          setLoading(false);
-        }, 2000);
-      };
-
-      return (
-        <div className="bg-gray-800 p-8 rounded-2xl shadow-lg border-2 border-transparent hover:border-teal-400 transition-all duration-300 transform hover:-translate-y-2">
-          <h3 className="text-xl font-bold text-white mb-4 text-center">Asesor Financiero con IA</h3>
-          <p className="text-gray-400 mb-4 text-center">Obtén recomendaciones financieras rápidas y personalizadas.</p>
-          <div className="space-y-4">
-            <textarea
-              className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 text-white"
-              rows="4"
-              placeholder="Escribe tu situación financiera aquí..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-            />
-            <button
-              onClick={handleConsult}
-              disabled={loading}
-              className="w-full bg-teal-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-teal-600 transition-all duration-300"
-            >
-              {loading ? 'Analizando...' : 'OBTENER CONSEJO'}
-            </button>
-          </div>
-          {response && (
-            <div className="mt-6 p-4 bg-gray-700 rounded-lg whitespace-pre-wrap">
-              <p className="font-bold text-white mb-2">Respuesta de la IA:</p>
-              <p className="text-gray-300" dangerouslySetInnerHTML={{ __html: response }}></p>
-            </div>
-          )}
+      </div>
+      <div class="proj-right">
+        <div class="proj-problem" id="pp1">CHALLENGE</div>
+        <p class="proj-desc" id="pd1">Enterprise management platform requiring guaranteed data integrity and real-time fault tolerance under high concurrency. Implemented CQRS to separate read/write operations, eliminating critical bottlenecks and synchronization errors across 500+ managed products.</p>
+        <div class="proj-metrics">
+          <div class="pm"><span class="pm-val blue">40%</span><span class="pm-label" id="pl1">Fewer sync errors</span></div>
+          <div class="pm"><span class="pm-val green">500+</span><span class="pm-label" id="pl2">Products managed</span></div>
+          <div class="pm"><span class="pm-val cyan">0</span><span class="pm-label" id="pl3">Data loss incidents</span></div>
         </div>
-      );
-    };
+        <a href="https://github.com/DeveloperSAC/aureon-digital-spark-50" target="_blank" class="proj-link">
+          → View on GitHub
+        </a>
+      </div>
+    </div>
 
-    // Este es el componente principal de la aplicación.
-    const App = () => {
-      // Se actualiza el estado para incluir el apellido
-      const [formData, setFormData] = useState({ name: '', lastName: '', email: '', message: '' });
-      const [submissionStatus, setSubmissionStatus] = useState(null);
-      const [validationError, setValidationError] = useState('');
-      const targetDate = new Date().getTime() + 48 * 60 * 60 * 1000;
-
-      const services = [
-        {
-          icon: 'fa-solid fa-robot',
-          title: 'Scripts de IA y Automatización',
-          description: 'Automatizamos tareas repetitivas y creamos scripts inteligentes para optimizar tus flujos de trabajo.',
-        },
-        {
-          icon: 'fa-solid fa-code',
-          title: 'Desarrollo de APIs',
-          description: 'Construimos APIs robustas y seguras para conectar tus aplicaciones y servicios.',
-        },
-        {
-          icon: 'fa-solid fa-search-dollar',
-          title: 'Optimización de Código',
-          description: 'Auditamos y refactorizamos tu código para mejorar su rendimiento, seguridad y escalabilidad.',
-        },
-        {
-          icon: 'fa-solid fa-comments',
-          title: 'Chatbots Personalizados',
-          description: 'Implementamos chatbots a medida para soporte al cliente, ventas o entretenimiento.',
-        },
-        {
-          icon: 'fa-solid fa-database',
-          title: 'Gestión de Bases de Datos',
-          description: 'Diseñamos y administramos bases de datos eficientes para tus aplicaciones.',
-        },
-        {
-          icon: 'fa-solid fa-rocket',
-          title: 'Consultoría Full Stack',
-          description: 'Brindamos asesoramiento experto en desarrollo de pila completa.',
-        },
-      ];
-
-      const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        setValidationError(''); // Limpiar errores previos
-
-        // Validación básica
-        if (!formData.name || !formData.lastName || !formData.email || !formData.message) {
-          setValidationError('Por favor, completa todos los campos.');
-          return;
-        }
-
-        setSubmissionStatus('loading');
-        setTimeout(() => {
-          console.log('Formulario enviado:', formData);
-          setSubmissionStatus('success');
-          setFormData({ name: '', lastName: '', email: '', message: '' });
-        }, 1500);
-      };
-
-      return (
-        <div className="bg-gray-950 text-gray-300 font-sans leading-relaxed">
-          {/* Header y Navegación */}
-          <header className="py-4 px-6 md:px-12 flex justify-between items-center bg-gray-900 border-b-2 border-teal-400">
-            <div className="flex items-center space-x-2">
-              <i className="fa-solid fa-microchip text-3xl text-teal-400"></i>
-              <h1 className="text-3xl font-extrabold text-white">ZadraCode</h1>
-            </div>
-            <div className="text-sm md:text-base hidden sm:flex items-center space-x-6">
-              <a href="#services" className="hover:text-teal-400 transition-colors">Servicios</a>
-              <a href="#contact" className="hover:text-teal-400 transition-colors">Contacto</a>
-            </div>
-          </header>
-
-          {/* Sección Hero con mensaje de urgencia y contador */}
-          <section className="min-h-screen flex items-center justify-center text-center bg-cover bg-center" style={{ backgroundImage: "linear-gradient(to bottom, rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url(https://placehold.co/1920x1080/0f172a/94a3b8?text=SOLUCIONES+DE+CODIGO)" }}>
-            <div className="max-w-4xl mx-auto p-6 md:p-12 animate-fadeInUp">
-              <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
-                <span className="text-teal-400">¿Problemas de código?</span> Soluciones de <span className="underline decoration-wavy decoration-red-500">alto impacto</span> en <span className="text-red-500">48 horas</span>.
-              </h2>
-              <p className="text-lg md:text-2xl text-gray-300 font-light mb-4">
-                Soy un Desarrollador Full Stack con el expertise para resolver tus desafíos más urgentes. **Sin excusas. Solo resultados.**
-              </p>
-              <CountdownTimer targetDate={targetDate} />
-              <div className="inline-flex items-center bg-green-600 text-white font-bold py-2 px-4 rounded-full mb-8 shadow-lg">
-                <i className="fa-solid fa-shield-halved mr-2"></i>
-                Satisfacción Garantizada
-              </div>
-              <a href="#contact" className="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 transform hover:scale-105">
-                ¡CONTACTA AHORA!
-              </a>
-            </div>
-          </section>
-
-          {/* Sección de Servicios */}
-          <section id="services" className="py-20 px-6 md:px-12 bg-gray-900">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Nuestros Servicios Estratégicos</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <ServiceCard key={index} {...service} />
-              ))}
-            </div>
-          </section>
-
-          {/* Sección de Nuevo Producto de Alto Valor */}
-          <section className="py-20 px-6 md:px-12 bg-gray-950">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Nuevo: Asesoría Financiera con IA</h2>
-            <div className="max-w-4xl mx-auto">
-              <FinancialAdvisor />
-            </div>
-          </section>
-
-          {/* Sección de Testimonios (Psicología de la Prueba Social) */}
-          <section className="py-20 px-6 md:px-12 bg-gray-900">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Testimonios. Clientes Satisfechos.</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-                <p className="italic text-gray-300 mb-4">"ZadraCode resolvió nuestro problema de scraping en menos de un día. Su velocidad es impresionante."</p>
-                <p className="font-bold text-white">- Ana P., Gerente de Marketing</p>
-              </div>
-              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-                <p className="italic text-gray-300 mb-4">"El chatbot que crearon para nuestro sitio web ha mejorado enormemente la satisfacción del cliente. ¡Increíble trabajo!"</p>
-                <p className="font-bold text-white">- Carlos G., CEO de TechSolutions</p>
-              </div>
-              <div className="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-                <p className="italic text-gray-300 mb-4">"La optimización de nuestra API fue vital. El rendimiento se disparó. Una inversión que valió la pena."</p>
-                <p className="font-bold text-white">- Laura M., CTO de InnoCorp</p>
-              </div>
-            </div>
-          </section>
-
-          {/* Sección de Contacto */}
-          <section id="contact" className="py-20 px-6 md:px-12 bg-gray-950">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">Listo para Actuar. ¿Qué necesitas?</h2>
-            <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-2xl shadow-2xl border-2 border-teal-400">
-              <p className="text-center text-lg text-gray-300 mb-6">
-                **Desarrollador Full Stack: Sadrac Aponte.**
-              </p>
-              <div className="flex justify-center items-center space-x-6 mb-6">
-                <a href="mailto:zadracvillanii@gmail.com" className="text-gray-300 hover:text-teal-400 transition-colors">
-                  <i className="fa-solid fa-envelope text-2xl mr-2"></i> zadracvillanii@gmail.com
-                </a>
-                <a href="tel:+56945885374" className="text-gray-300 hover:text-teal-400 transition-colors">
-                  <i className="fa-solid fa-phone text-2xl mr-2"></i> +56 9 45885374
-                </a>
-              </div>
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-1">Tu Nombre</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
-                  />
-                </div>
-                {/* Nuevo campo de apellido */}
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-400 mb-1">Tu Apellido</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">Tu Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-1">Tu Mensaje</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows="4"
-                    className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
-                  ></textarea>
-                </div>
-                {validationError && (
-                  <p className="text-center text-red-500">{validationError}</p>
-                )}
-                {submissionStatus === 'loading' && (
-                  <p className="text-center text-teal-400 animate-pulse">Enviando...</p>
-                )}
-                {submissionStatus === 'success' && (
-                  <p className="text-center text-green-500">¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.</p>
-                )}
-                <button
-                  type="submit"
-                  className="w-full bg-teal-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-teal-600 transition-all duration-300"
-                  disabled={submissionStatus === 'loading'}
-                >
-                  ENVIAR MENSAJE
-                </button>
-              </form>
-            </div>
-          </section>
-
-          {/* Footer */}
-          <footer className="py-6 text-center text-gray-500 text-sm bg-gray-950">
-            &copy; 2024 Sadrac Aponte. Todos los derechos reservados.
-          </footer>
+    <div class="proj-card">
+      <div class="proj-left">
+        <div>
+          <div class="proj-name">Chess<br>Trainer</div>
+          <div class="proj-type">3D Educational Platform + AI</div>
         </div>
-      );
-    };
+        <div class="proj-stack">
+          <span class="ps-item">React Three Fiber</span>
+          <span class="ps-item">WebGL / Three.js</span>
+          <span class="ps-item">AI Integration</span>
+          <span class="ps-item">JWT Auth</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-problem" id="pp2">CHALLENGE</div>
+        <p class="proj-desc" id="pd2">Immersive 3D training platform requiring stable visual performance without sacrificing backend robustness. Achieved 60 FPS stable in WebGL with 45% memory optimization, combining AI chess analysis with a fluid interactive 3D interface.</p>
+        <div class="proj-metrics">
+          <div class="pm"><span class="pm-val gold">60</span><span class="pm-label" id="pl4">FPS stable</span></div>
+          <div class="pm"><span class="pm-val cyan">45%</span><span class="pm-label" id="pl5">Less memory</span></div>
+          <div class="pm"><span class="pm-val green">3D+AI</span><span class="pm-label" id="pl6">Unique stack</span></div>
+        </div>
+        <a href="https://github.com/DeveloperSAC" target="_blank" class="proj-link">
+          → View on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    // Se renderiza la aplicación React en el DOM
-    const container = document.getElementById('root');
-    const root = ReactDOM.createRoot(container);
-    root.render(<App />);
-  </script>
+<!-- PROCESS -->
+<section id="process">
+  <div class="sec-label">
+    <span class="sec-num">04 //</span>
+    <h2 class="sec-title" id="sec-proc-title">How I <em>Work</em></h2>
+  </div>
+
+  <div class="process-grid">
+    <div class="proc-card">
+      <div class="proc-num">01</div>
+      <div class="proc-phase">Phase 1</div>
+      <div class="proc-title" id="ph1">Planning</div>
+      <ul class="proc-items">
+        <li id="pi1">Requirements analysis</li>
+        <li id="pi2">Architecture design</li>
+        <li id="pi3">Tech stack selection</li>
+        <li id="pi4">Delivery roadmap</li>
+      </ul>
+    </div>
+    <div class="proc-card">
+      <div class="proc-num">02</div>
+      <div class="proc-phase">Phase 2</div>
+      <div class="proc-title" id="ph2">Frontend</div>
+      <ul class="proc-items">
+        <li id="pi5">UI/UX implementation</li>
+        <li id="pi6">Responsive design</li>
+        <li id="pi7">SEO optimization</li>
+        <li id="pi8">Component library</li>
+      </ul>
+    </div>
+    <div class="proc-card">
+      <div class="proc-num">03</div>
+      <div class="proc-phase">Phase 3</div>
+      <div class="proc-title" id="ph3">Backend</div>
+      <ul class="proc-items">
+        <li id="pi9">API design</li>
+        <li id="pi10">Database modeling</li>
+        <li id="pi11">Business logic</li>
+        <li id="pi12">Security hardening</li>
+      </ul>
+    </div>
+    <div class="proc-card">
+      <div class="proc-num">04</div>
+      <div class="proc-phase">Phase 4</div>
+      <div class="proc-title" id="ph4">DevOps & QA</div>
+      <ul class="proc-items">
+        <li id="pi13">CI/CD pipelines</li>
+        <li id="pi14">Automated testing</li>
+        <li id="pi15">Production deploy</li>
+        <li id="pi16">Bilingual docs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="contact-big" id="contact-title">Let's build<br>something <em>real</em></h2>
+    <p class="contact-sub" id="contact-sub">
+      Have a system that needs to scale? A legacy codebase that needs modernizing?
+      A backend that's causing headaches? Let's talk — first consultation is free.
+    </p>
+
+    <div class="contact-links">
+      <a href="mailto:zadracvillanii@gmail.com" class="contact-link">✉ zadracvillanii@gmail.com</a>
+      <a href="https://linkedin.com/in/sadrac-aponte-castillo" target="_blank" class="contact-link">in LinkedIn</a>
+      <a href="https://github.com/DeveloperSAC" target="_blank" class="contact-link">⌥ GitHub</a>
+      <a href="https://www.upwork.com" target="_blank" class="contact-link">↗ Upwork</a>
+    </div>
+
+    <div class="contact-availability">
+      <div class="avail-dot"></div>
+      <span id="avail-text">Available for new projects · Santiago, Chile · Remote worldwide</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2025 Sadrac Aponte Castillo · developerSAC</span>
+  <div class="footer-links">
+    <a href="https://github.com/DeveloperSAC" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/sadrac-aponte-castillo" target="_blank">LinkedIn</a>
+    <a href="mailto:zadracvillanii@gmail.com">Email</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const content = {
+  en: {
+    status: "Available for projects",
+    heroTitle: "Backend Architect · Full Stack Developer",
+    heroDesc: "I build backend systems that <strong>don't break under pressure.</strong> Specialized in microservice architectures, legacy migrations and enterprise-grade performance optimization. Based in Santiago, Chile — working globally.",
+    m1: "Response time reduction", m2: "Fewer sync errors", m3: "Products managed",
+    cta1: "→ Work with me", cta2: "View projects",
+    secServicesTitle: "What I <em>Build</em>",
+    s1n: "Microservice Architecture", s1d: "Design and implementation of distributed systems with fault tolerance, Saga patterns and CQRS. Built to handle production load from day one.",
+    s2n: "Performance Optimization", s2d: "Database query optimization, N+1 elimination, advanced indexing. Documented results: 88% reduction in response times on PostgreSQL systems.",
+    s3n: "Legacy Migration", s3d: "End-to-end migration from legacy systems to .NET Core or Node.js with zero downtime strategy, full test coverage and documentation.",
+    s4n: "3D Web Platforms", s4d: "High-performance interactive 3D applications with React Three Fiber and WebGL. 60 FPS stable with 45% memory optimization.",
+    s5n: "Full Stack SaaS MVP", s5d: "Complete MVP with auth, dashboard, API and database. Modern, scalable stack from day one. Next.js 14 + PostgreSQL + CI/CD included.",
+    s6n: "Technical Retainer", s6d: "Monthly ongoing support, code reviews, architectural improvements and priority availability for startups and tech SMEs.",
+    secProjTitle: "Selected <em>Projects</em>",
+    pp1: "CHALLENGE", pd1: "Enterprise management platform requiring guaranteed data integrity and real-time fault tolerance. Implemented CQRS to eliminate critical bottlenecks across 500+ managed products.",
+    pl1: "Fewer sync errors", pl2: "Products managed", pl3: "Data loss incidents",
+    pp2: "CHALLENGE", pd2: "Immersive 3D training platform requiring stable performance. Achieved 60 FPS stable in WebGL with 45% memory optimization, combining AI chess analysis with fluid 3D interface.",
+    pl4: "FPS stable", pl5: "Less memory", pl6: "Unique stack",
+    secProcTitle: "How I <em>Work</em>",
+    ph1: "Planning", ph2: "Frontend", ph3: "Backend", ph4: "DevOps & QA",
+    pi1: "Requirements analysis", pi2: "Architecture design", pi3: "Tech stack selection", pi4: "Delivery roadmap",
+    pi5: "UI/UX implementation", pi6: "Responsive design", pi7: "SEO optimization", pi8: "Component library",
+    pi9: "API design", pi10: "Database modeling", pi11: "Business logic", pi12: "Security hardening",
+    pi13: "CI/CD pipelines", pi14: "Automated testing", pi15: "Production deploy", pi16: "Bilingual docs",
+    contactTitle: "Let's build<br>something <em>real</em>",
+    contactSub: "Have a system that needs to scale? A legacy codebase that needs modernizing? A backend causing headaches? Let's talk — first consultation is free.",
+    availText: "Available for new projects · Santiago, Chile · Remote worldwide"
+  },
+  es: {
+    status: "Disponible para proyectos",
+    heroTitle: "Arquitecto Backend · Desarrollador Full Stack",
+    heroDesc: "Construyo sistemas backend que <strong>no colapsan bajo presión.</strong> Especializado en arquitecturas de microservicios, migraciones de sistemas legacy y optimización de performance a nivel empresarial. Basado en Santiago, Chile — trabajo globalmente.",
+    m1: "Reducción en tiempos de respuesta", m2: "Menos errores de sincronización", m3: "Productos gestionados",
+    cta1: "→ Trabajemos juntos", cta2: "Ver proyectos",
+    secServicesTitle: "Qué <em>Construyo</em>",
+    s1n: "Arquitectura de Microservicios", s1d: "Diseño e implementación de sistemas distribuidos con tolerancia a fallos, patrones Saga y CQRS. Construidos para soportar carga de producción desde el primer día.",
+    s2n: "Optimización de Performance", s2d: "Optimización de consultas, eliminación de N+1, indexación avanzada. Resultado documentado: 88% de reducción en tiempos de respuesta en sistemas PostgreSQL.",
+    s3n: "Migración de Sistemas Legacy", s3d: "Migración completa de sistemas legacy a .NET Core o Node.js con estrategia de zero downtime, cobertura de tests completa y documentación.",
+    s4n: "Plataformas 3D Web", s4d: "Aplicaciones 3D interactivas de alto rendimiento con React Three Fiber y WebGL. 60 FPS estables con 45% de optimización de memoria.",
+    s5n: "MVP Full Stack SaaS", s5d: "MVP completo con auth, dashboard, API y base de datos. Stack moderno y escalable desde el día uno. Next.js 14 + PostgreSQL + CI/CD incluido.",
+    s6n: "Retainer Técnico", s6d: "Soporte mensual continuo, code reviews, mejoras arquitectónicas y disponibilidad prioritaria para startups y PYMEs tech.",
+    secProjTitle: "Proyectos <em>Seleccionados</em>",
+    pp1: "DESAFÍO", pd1: "Plataforma de gestión empresarial que requería integridad de datos garantizada y tolerancia a fallos en tiempo real. Implementé CQRS para eliminar cuellos de botella críticos en más de 500 productos gestionados.",
+    pl1: "Menos errores sync", pl2: "Productos gestionados", pl3: "Incidentes de pérdida de datos",
+    pp2: "DESAFÍO", pd2: "Plataforma de entrenamiento 3D inmersiva que requería rendimiento visual estable. Logré 60 FPS estables en WebGL con 45% de optimización de memoria, combinando análisis de ajedrez con IA.",
+    pl4: "FPS estables", pl5: "Menos memoria", pl6: "Stack único",
+    secProcTitle: "Cómo <em>Trabajo</em>",
+    ph1: "Planificación", ph2: "Frontend", ph3: "Backend", ph4: "DevOps & QA",
+    pi1: "Análisis de requerimientos", pi2: "Diseño de arquitectura", pi3: "Selección de stack", pi4: "Roadmap de entrega",
+    pi5: "Implementación UI/UX", pi6: "Diseño responsive", pi7: "Optimización SEO", pi8: "Librería de componentes",
+    pi9: "Diseño de API", pi10: "Modelado de base de datos", pi11: "Lógica de negocio", pi12: "Seguridad",
+    pi13: "Pipelines CI/CD", pi14: "Testing automatizado", pi15: "Deploy a producción", pi16: "Docs bilingüe",
+    contactTitle: "Construyamos<br>algo <em>real</em>",
+    contactSub: "¿Tienes un sistema que necesita escalar? ¿Un codebase legacy que modernizar? ¿Un backend que da problemas? Hablemos — primera consulta gratis.",
+    availText: "Disponible para nuevos proyectos · Santiago, Chile · Remoto mundial"
+  }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  const c = content[lang];
+  document.getElementById('status-text').textContent = c.status;
+  document.getElementById('hero-title').textContent = c.heroTitle;
+  document.getElementById('hero-desc').innerHTML = c.heroDesc;
+  document.getElementById('m1').textContent = c.m1;
+  document.getElementById('m2').textContent = c.m2;
+  document.getElementById('m3').textContent = c.m3;
+  document.getElementById('cta1').textContent = c.cta1;
+  document.getElementById('cta2').textContent = c.cta2;
+  document.getElementById('sec-services-title').innerHTML = c.secServicesTitle;
+  document.getElementById('s1-name').textContent = c.s1n;
+  document.getElementById('s1-desc').textContent = c.s1d;
+  document.getElementById('s2-name').textContent = c.s2n;
+  document.getElementById('s2-desc').textContent = c.s2d;
+  document.getElementById('s3-name').textContent = c.s3n;
+  document.getElementById('s3-desc').textContent = c.s3d;
+  document.getElementById('s4-name').textContent = c.s4n;
+  document.getElementById('s4-desc').textContent = c.s4d;
+  document.getElementById('s5-name').textContent = c.s5n;
+  document.getElementById('s5-desc').textContent = c.s5d;
+  document.getElementById('s6-name').textContent = c.s6n;
+  document.getElementById('s6-desc').textContent = c.s6d;
+  document.getElementById('sec-proj-title').innerHTML = c.secProjTitle;
+  document.getElementById('pp1').textContent = c.pp1;
+  document.getElementById('pd1').textContent = c.pd1;
+  document.getElementById('pl1').textContent = c.pl1;
+  document.getElementById('pl2').textContent = c.pl2;
+  document.getElementById('pl3').textContent = c.pl3;
+  document.getElementById('pp2').textContent = c.pp2;
+  document.getElementById('pd2').textContent = c.pd2;
+  document.getElementById('pl4').textContent = c.pl4;
+  document.getElementById('pl5').textContent = c.pl5;
+  document.getElementById('pl6').textContent = c.pl6;
+  document.getElementById('sec-proc-title').innerHTML = c.secProcTitle;
+  ['ph1','ph2','ph3','ph4'].forEach(id => document.getElementById(id).textContent = c[id]);
+  for(let i=1;i<=16;i++) document.getElementById('pi'+i).textContent = c['pi'+i];
+  document.getElementById('contact-title').innerHTML = c.contactTitle;
+  document.getElementById('contact-sub').textContent = c.contactSub;
+  document.getElementById('avail-text').textContent = c.availText;
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+}
+</script>
 </body>
 </html>
